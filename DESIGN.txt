@@ -1,0 +1,17 @@
+Sink or Swim
+
+My game will be a 2-D scrolling platformer game where the player is a diver swimming in the sea. 
+
+The game is set in the most treacherous area of the red sea, and the diver, an aquatic life enthusiast, is determined to go where none have before 
+to collect the precious fish and sea shells that lie in the depths below. 
+The adventure is not for the faint hearted –oxygen is limited, the carnivorous fish are hungry and the venomous crabs are aggressive.
+
+Level 1
+In the first level the diver has to swim through the sea to get back to its boat, avoiding the fish hooks hanging and the seaweed growing from the sea bed. It will also have to avoid the big carnivorous fish swimming around, whilst trying to catch as many little fish as possible. The screen will continually be moving to the right, so the diver has to keep up. Once it gets back to the boat, it will collect more oxygen and go back down to the sea floor for level 2.
+
+The only keys the player uses are up and down, to make the diver swim up or down to avoid/collect something. There will also be cheat codes to get rid of the carnivorous fish, remove all the hooks, and remove the sea weed.
+
+Level 2
+In the second level the diver is walking on the sea floor, trying to collect all the precious shells. It has to jump over rocks and squash the crabs walking around. The diver also has to be careful to avoid the sharks that occasionally dive down to try and catch their dinner! The diver will keep walking until it gets to land (the sea will shallow and it can walk out).
+
+The keys the player can use are space bar to jump and right to move right. There will also be cheat codes to get rid of the crabs, the rocks, and stop to sharks from diving down.

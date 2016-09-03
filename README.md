@@ -1,4 +1,2 @@
-game
-====
-
-First project for CompSci 308 Fall 2016
+# example_javafx
+A simple example JavaFX program
