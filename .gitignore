@@ -8,4 +8,4 @@
 # Eclipse files
 /bin
 .project
-.metadata
+/.metadata/
