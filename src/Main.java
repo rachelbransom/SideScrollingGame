@@ -6,11 +6,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+
 /**
- * This is the main program, it is basically boilerplate to create
- * an animated scene.
- * 
- * @author Robert C. Duvall
+ *
+ * @author Rachel Bransom rnb11
  */
 public class Main extends Application {
     public static final int SIZE = 650;
@@ -18,8 +17,7 @@ public class Main extends Application {
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    private ExampleGame myGame;
-
+    private Game myGame;
 
     /**
      * Set things up at the beginning.
@@ -27,8 +25,9 @@ public class Main extends Application {
     @Override
     public void start (Stage stage) {
         // create your own game here
-        myGame = new ExampleGame();
+        myGame = new Game();
         stage.setTitle(myGame.getTitle());
+        stage.setResizable(false);
 
         // attach game to the stage and display it
         Scene scene = myGame.init(SIZE, SIZE);
@@ -36,11 +35,11 @@ public class Main extends Application {
         stage.show();
 
         // sets the game's loop
-//        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-//                                      e -> myGame.step(SECOND_DELAY));
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                                      e -> myGame.step(SECOND_DELAY, SIZE, SIZE));
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-//        animation.getKeyFrames().add(frame);
+        animation.getKeyFrames().add(frame);
         animation.play();
     }
 
@@ -50,4 +49,6 @@ public class Main extends Application {
     public static void main (String[] args) {
         launch(args);
     }
+    
+    
 }
