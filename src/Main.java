@@ -27,7 +27,7 @@ public class Main extends Application {
         // create your own game here
         myGame = new Game();
         stage.setTitle(myGame.getTitle());
-        stage.setResizable(false);
+        //stage.setResizable(false);
 
         // attach game to the stage and display it
         Scene scene = myGame.init(SIZE, SIZE);
@@ -48,6 +48,10 @@ public class Main extends Application {
      */
     public static void main (String[] args) {
         launch(args);
+    }
+    
+ public void endGame(){
+    	
     }
     
     

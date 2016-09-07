@@ -2,6 +2,7 @@ import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 
 public class Enemy extends Sprite{
@@ -25,7 +26,7 @@ public class Enemy extends Sprite{
 	}
 	
 	public void update(double elapsedTime){
-		rect.setX(rect.getX()-this.getX()*elapsedTime);
+		rect.setX(rect.getX()-this.getXv()*elapsedTime);
 		
 	}
 	
@@ -33,10 +34,12 @@ public class Enemy extends Sprite{
 		return rect;
 	}
 	
-	public void colision(){
-		
+	public void collision(Shape mainPlayer){
+		Shape intersect = Shape.intersect((Shape) this.getRect(), mainPlayer);
+		if (intersect.getBoundsInLocal().getWidth() != -1){
+			//System.out.print ("COLLISION!");
+		}
 	}
-
 		 
 	
 }

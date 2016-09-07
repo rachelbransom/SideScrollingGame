@@ -7,12 +7,13 @@ public class Sprite {
 	private double height;
 	private boolean isDead;
 	
-	public double getX(){
+	public double getXv(){
 		return this.vX;
 	}
-	public double getY() {
+	public double getYv() {
 		return this.vY;
 	}
+	
 	public void setXv(double newX){
 		this.vX = newX;
 	}
@@ -20,10 +21,7 @@ public class Sprite {
 	public void setYv(double newY){
 		this.vY = newY;
 	}
-	
-	public void collision(){
-		
-	}
+
 	
 	
 	//x velocity

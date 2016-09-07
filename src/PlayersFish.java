@@ -14,13 +14,20 @@ public class PlayersFish extends Sprite{
 		return player;
 	}
 	
+	public Double getPlayerYPos(){
+		return player.getLayoutY();
+	}
+	
 	public void update(double elapsedTime){
-		player.setLayoutY(this.getY()*elapsedTime*200 + player.getLayoutY());
-		if(this.getY() != 0){
-			double newV = this.getY() > 0 ? this.getY()-1 : this.getY()+1;
+		player.setLayoutY(this.getYv()*elapsedTime*200 + player.getLayoutY());
+		if(this.getYv() != 0){
+			double newV = this.getYv() > 0 ? this.getYv()-1 : this.getYv()+1;
 			this.setYv(newV);
 		}
 	}
+
+
+	
 	
 	//what does it look like?
 	// set javafx node to circle
