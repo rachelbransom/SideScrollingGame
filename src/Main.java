@@ -17,7 +17,9 @@ public class Main extends Application {
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    private Game myGame;
+    private static Game myGame;
+    private LevelOne levelOne;
+    private SplashScreen splashScreen;
 
     /**
      * Set things up at the beginning.
@@ -26,6 +28,8 @@ public class Main extends Application {
     public void start (Stage stage) {
         // create your own game here
         myGame = new Game();
+        //splashScreen = new SplashScreen();
+        //levelOne = new LevelOne();
         stage.setTitle(myGame.getTitle());
         //stage.setResizable(false);
 
@@ -33,15 +37,17 @@ public class Main extends Application {
         Scene scene = myGame.init(SIZE, SIZE);
         stage.setScene(scene);
         stage.show();
-
+        
         // sets the game's loop
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> myGame.step(SECOND_DELAY, SIZE, SIZE));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
+        
     }
+    
+    public static Game getMyGame(){
+    	return myGame;
+    }
+    
+    
+    
 
     /**
      * Start the program.
@@ -50,9 +56,11 @@ public class Main extends Application {
         launch(args);
     }
     
- public void endGame(){
+ public void resetRoot(){
     	
     }
-    
-    
+
 }
+    
+    
+

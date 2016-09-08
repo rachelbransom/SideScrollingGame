@@ -34,50 +34,81 @@ import java.util.Random;
 class Game {
 	public static final String TITLE = "Sink or Swim";
 	public static final int KEY_INPUT_SPEED = 1000;
-	private static final double GROWTH_RATE = 1.1;
-	private static final int BACKGROUND_SPEED = 1;
+	public static final int FRAMES_PER_SECOND = 60;
+    private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    public static final int SIZE = 650;
+	//private static final double GROWTH_RATE = 1.1;
+	//private static final int BACKGROUND_SPEED = 1;
 
-	private Scene flashScene, myLevel1Scene, myLevel2Scene, gameOverScene;
+	//private Scene flashScene, myLevel1Scene, myLevel2Scene, gameOverScene;
+	private Scene scene;
 	private ImageView levelOneBackground1;
 	private ImageView levelOneBackground2;
 	private PlayersFish player;
 	private Rectangle myBottomBlock;
 	private int stepCounter;
 	private ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
-	private Group root = new Group();
+	protected Group gameRoot = new Group();
 	private ParallelTransition parallelTransition;
-
+	private LevelOne levelOne;
+	
+	private SplashScreen splashScreen;
+	
 	/**
 	 * Returns name of the game.
 	 */
 	public String getTitle() {
 		return TITLE;
 	}
+	
+	public void changeScreen(int level){
+		gameRoot.getChildren().clear();
+		if (level ==1){
+			levelOne = new LevelOne();
+			levelOne.levelOneInit(gameRoot);
+		}
+	}
+	
+	public void gameAnimationStarter(){
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                e -> this.step(SECOND_DELAY, SIZE, SIZE));
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+	}
+	
+	
 
 	/**
 	 * Create the game's scene
 	 */
 	public Scene init(int width, int height) {
+		scene = new Scene(gameRoot, width, height, Color.TRANSPARENT);
+		splashScreen = new SplashScreen();
+		splashScreen.splashInit(gameRoot);
+		return scene;
 		// create a scene graph to organize the scene
 		// Group root = new Group();
 		// create a place to see the shapes
 
-		myLevel1Scene = new Scene(root, width, height, Color.TRANSPARENT);
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
-		Image image2 = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
-		levelOneBackground1 = new ImageView(image);
-		levelOneBackground2 = new ImageView(image2);
-		
-		// Rectangle sea = new Rectangle(width, height*0.9);
-		// sea.setFill(Color.LIGHTSKYBLUE);
-		root.getChildren().add(levelOneBackground1);
-		root.getChildren().add(levelOneBackground2);
-		levelOneBackground2.setX(1089);
+//		myLevel1Scene = new Scene(root, width, height, Color.TRANSPARENT);
+//		Image image = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
+//		Image image2 = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
+//		levelOneBackground1 = new ImageView(image);
+//		levelOneBackground2 = new ImageView(image2);
+//		
+//		// Rectangle sea = new Rectangle(width, height*0.9);
+//		// sea.setFill(Color.LIGHTSKYBLUE);
+//		root.getChildren().add(levelOneBackground1);
+//		root.getChildren().add(levelOneBackground2);
+//		levelOneBackground2.setX(1089);
 		// levelOneBackground1.setX(width / 2 -
 		// levelOneBackground1.getBoundsInLocal().getWidth() / 2);
 		// levelOneBackground1.setY(height / 2 -
 		// levelOneBackground1.getBoundsInLocal().getHeight() / 2);
-		makeBackgroundScroll(width);
+//		makeBackgroundScroll(width);
 		// Bubble[] bubbles = new Bubble[]{new Bubble(400,100), new
 		// Bubble(150,200), new Bubble(20,450),
 		// new Bubble(400,400)};
@@ -100,13 +131,15 @@ class Game {
 		// myBottomBlock.setFill(Color.BISQUE);
 		// order added to the group is the order in whuch they are drawn
 		// root.getChildren().add(myBouncer);
-		player = new PlayersFish();
-		root.getChildren().add(player.getPlayer());
+		//levelOne = new LevelOne();
+		
+		//player = new PlayersFish();
+		//root.getChildren().add(player.getPlayer());
 		// root.getChildren().add(myBottomBlock);
 		// respond to input
-		myLevel1Scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+		//myLevel1Scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		// myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
-		return myLevel1Scene;
+		
 	}
 
 	/**
@@ -121,7 +154,7 @@ class Game {
 		if (stepCounter % 50 == 0) {
 			Enemy enemy = new Enemy();
 			enemiesList.add(enemy);
-			root.getChildren().add(enemy.getRect());
+			//root.getChildren().add(enemy.getRect());
 		}
 
 		// levelOneBackground.setLayoutX(levelOneBackground.getLayoutX()-BACKGROUND_SPEED*elapsedTime);
