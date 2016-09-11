@@ -1,20 +1,13 @@
 import java.util.ArrayList;
-
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -26,29 +19,23 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
-public class LevelOne {
+public class LevelOne extends Level {
 	private Group levelOneRoot;
-	private Scene myLevel1Scene;
 	private ImageView levelOneBackground1;
 	private ImageView levelOneBackground2;
 	private PlayersFish player;
-	private int stepCounter;
+	private int stepCounter, GOAL_NUMBER_COINS = 10, numCoinsCollected;
 	private ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
 	private ArrayList<Coin> coinList = new ArrayList<Coin>();
 	private ParallelTransition parallelTransition;
-	private boolean gameOver = false, passedLevelOne = false;
+	private boolean passedLevelOne = false, disableEnemies = false;
 	public static final int SIZE = 650;
 	public static final int FRAMES_PER_SECOND = 60;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private Button playAgain;
-	private Button exitOut;
-	private Integer numCoinsCollected = 0;
+	private Button playAgain, exitOut, continueToLevelTwo;
 	private Text score;
-	private boolean disableEnemies=false;
 	private ArrayList<Coin> coinsCollidedToDelete = new ArrayList<Coin>();
-	private int GOAL_NUMBER_COINS = 10;
-	private Button continueToLevelTwo;
 
 	public void levelOneInit(Group root) {
 		levelOneRoot = root;
@@ -99,18 +86,21 @@ public class LevelOne {
 
 			for (Enemy e : enemiesList) {
 				if (e.collision((Shape) player.getPlayer())) {
-					setScreenToGameOver();
+
+					setScreenToGameOver(levelOneRoot, player);
 				}
 				e.update(elapsedTime);
 			}
 			for (Coin c : coinList) {
 				if (c.collision((Shape) player.getPlayer())) {
+
 					coinsCollidedToDelete.add(c);
 					levelOneRoot.getChildren().remove(c.getCircle());
-					
+
 					numCoinsCollected++;
 					score.setText("SCORE: " + numCoinsCollected);
-					if (numCoinsCollected == GOAL_NUMBER_COINS){
+					if (numCoinsCollected == GOAL_NUMBER_COINS) {
+
 						passedLevelOne = true;
 						setScreenToLevelTwo();
 					}
@@ -124,23 +114,6 @@ public class LevelOne {
 		player.update(elapsedTime);
 	}
 
-	public void setScreenToGameOver() {
-		gameOver = true;
-		levelOneRoot.getChildren().remove(player.getPlayer());
-		displayGameOverText();
-		// Main.getMyGame().changeScreen(3);
-		displayGameOverButtons();
-
-		playAgain.setOnAction((event) -> {
-			Main.getMyGame().changeScreen(1);
-		});
-
-		exitOut.setOnAction((event) -> {
-			System.exit(0);
-		});
-
-	}
-	
 	public void setScreenToLevelTwo() {
 		levelOneRoot.getChildren().remove(player.getPlayer());
 		displayLevelTwoText();
@@ -150,53 +123,23 @@ public class LevelOne {
 			Main.getMyGame().changeScreen(2);
 		});
 
-		exitOut.setOnAction((event) -> {
-			System.exit(0);
-		});
-
 	}
 
-	public void displayGameOverText() {
-		Text gameOverText = new Text(SIZE / 5, SIZE / 3, "GAME\n OVER");
-		gameOverText.setFont(Font.font("Impact", FontWeight.BOLD, 160));
-		gameOverText.setFill(Color.WHITE);
-		gameOverText.setTextAlignment(TextAlignment.CENTER);
-		levelOneRoot.getChildren().add(gameOverText);
-	}
-
-	public void displayGameOverButtons() {
-		playAgain = new Button("Play Again");
-		playAgain.setLayoutX(SIZE / 4);
-		playAgain.setLayoutY(SIZE * 3 / 4);
-		playAgain.setPrefSize(SIZE / 2, 40);
-		levelOneRoot.getChildren().add(playAgain);
-
-		exitOutButtonInit();
-	}
-	
 	public void displayLevelTwoText() {
-		Text levelTwoText = new Text(SIZE / 2, SIZE / 3, "CONGRATULATIONS! \n YOU PASSED \n LEVEL ONE");
+		Text levelTwoText = new Text(SIZE / 8, SIZE / 3, "CONGRATULATIONS! \n YOU PASSED \n LEVEL ONE");
 		levelTwoText.setFont(Font.font("Impact", FontWeight.BOLD, 60));
 		levelTwoText.setFill(Color.WHITE);
 		levelTwoText.setTextAlignment(TextAlignment.CENTER);
 		levelOneRoot.getChildren().add(levelTwoText);
 	}
-	
+
 	public void displayLevelTwoButtons() {
 		continueToLevelTwo = new Button("Proceed to Level 2");
 		continueToLevelTwo.setLayoutX(SIZE / 4);
 		continueToLevelTwo.setLayoutY(SIZE * 3 / 4);
 		continueToLevelTwo.setPrefSize(SIZE / 2, 40);
 		levelOneRoot.getChildren().add(continueToLevelTwo);
-		exitOutButtonInit();
-	}
-	
-	public void exitOutButtonInit(){
-		exitOut = new Button("Exit Out");
-		exitOut.setLayoutX(SIZE / 4);
-		exitOut.setLayoutY(SIZE * 9 / 10);
-		exitOut.setPrefSize(SIZE / 2, 40);
-		levelOneRoot.getChildren().add(exitOut);
+
 	}
 
 	public void gameAnimationStarter() {
@@ -245,14 +188,26 @@ public class LevelOne {
 				player.setYv(player.getYv() + 3);
 			}
 			break;
-		
+
+		case LEFT:
+			if (player.getPlayerXPos() > -300) {
+				player.setXv(player.getXv() - 3);
+			}
+			break;
+
+		case RIGHT:
+			if (player.getPlayerXPos() < 300) {
+				player.setXv(player.getXv() + 3);
+			}
+			break;
+
 		case E:
 			disableEnemies = true;
-			for (Enemy e:enemiesList){
+			for (Enemy e : enemiesList) {
 				levelOneRoot.getChildren().remove(e.getRect());
 			}
 			break;
-		
+
 		case T:
 			numCoinsCollected = GOAL_NUMBER_COINS;
 			passedLevelOne = true;

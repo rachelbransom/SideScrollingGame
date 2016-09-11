@@ -17,6 +17,7 @@ public class SplashScreen {
 	private Button playButton;
 	private Button instructionsButton, levelTwoButton;
 	private LevelOne levelOne;
+	private Text displayText, instructionsText;
 	public static final int SIZE = 650;
 
 	public void splashInit(Group root) {
@@ -26,26 +27,69 @@ public class SplashScreen {
 		splashRoot.getChildren().add(splashImage);
 
 		splashText();
-		displaySplashButtons();
+		displaySplashButtons(SIZE * 3 / 5);
 
 		playButton.setOnAction((event) -> {
 			startGame(1);
 		});
+		levelTwoButton.setOnAction((event) -> {
+			startGame(2);
+		});
+		instructionsButton.setOnAction((event) -> {
+			displayInstructions();
+		});
+		
 
 		// return splashScene;
 	}
+	
+	public void displayInstructions(){
+		splashRoot.getChildren().removeAll(playButton, levelTwoButton, instructionsButton, displayText);
+		Text instructionsHeader = new Text(SIZE/6, SIZE/6, "INSTRUCTIONS");
+		instructionsHeader.setFont(Font.font("Impact", FontWeight.BOLD, 80));;
+		instructionsHeader.setFill(Color.TEAL);
+		
+		instructionsText = new Text(SIZE/8, SIZE/4, "For level 1, you are a diver (red square) "
+				+ "swimming through the ocean. Avoid all the multicolored square fish "
+				+ "but collect all the coins!\n"
+				+ "Once you have collected 10 coins, you pass onto "
+				+ "the next level! \n To move, use the four arrow key buttons. You cannot"
+				+ "go off of the screen \n"
+				+ "\n"
+				+ "For level 2, you are walking on the sea floor. You can move "
+				+ "forwards and backwards, using the left and right arrow keys "
+				+ "and to jump you press space bar. You'll need this to avoid "
+				+ "the venemous crabs walking on the sea floor - if you make "
+				+ "contact with one you'll die! \n"
+				+ "\n"
+				+ "GOOD LUCK!");
+		instructionsText.setWrappingWidth(SIZE-100);
+		instructionsText.setFont(Font.font("Impact", FontWeight.NORMAL, 20));;
+		instructionsText.setFill(Color.WHITE);
+		
+		playButton = new Button("START");
+		playButton.setLayoutX(SIZE / 4);
+		playButton.setLayoutY(SIZE - 100);
+		playButton.setPrefSize(SIZE / 2, 40);
+		
+		splashRoot.getChildren().addAll(instructionsText, instructionsHeader, playButton);
+		
+		playButton.setOnAction((event) -> {
+			startGame(1);
+		});
+	}
 
 	public void splashText() {
-		Text displayText = new Text(SIZE / 8, SIZE / 4, "Sink or \n  Swim");
+		displayText = new Text(SIZE / 8, SIZE / 4, "Sink or \n  Swim");
 		displayText.setFont(Font.font("Impact", FontWeight.BOLD, 160));
 		displayText.setFill(Color.TEAL);
 		splashRoot.getChildren().add(displayText);
 	}
 
-	public void displaySplashButtons() {
+	public void displaySplashButtons(int layoutY) {
 		playButton = new Button("Play Level 1");
 		playButton.setLayoutX(SIZE / 4);
-		playButton.setLayoutY(SIZE * 3 / 5);
+		playButton.setLayoutY(layoutY);
 		playButton.setPrefSize(SIZE / 2, 40);
 
 		splashRoot.getChildren().add(playButton);

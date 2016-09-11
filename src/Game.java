@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -38,10 +39,6 @@ class Game {
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	public static final int SIZE = 650;
-	// private static final double GROWTH_RATE = 1.1;
-	// private static final int BACKGROUND_SPEED = 1;
-
-	// private Scene flashScene, myLevel1Scene, myLevel2Scene, gameOverScene;
 	private Scene scene;
 	private ImageView levelOneBackground1;
 	private ImageView levelOneBackground2;
@@ -53,8 +50,8 @@ class Game {
 	protected Group gameRoot = new Group();
 	private ParallelTransition parallelTransition;
 	private LevelOne levelOne;
-	// private GameOverScreen gameOverScreen;
-
+	private LevelTwo levelTwo;
+	private int gameLevel;
 	private SplashScreen splashScreen;
 
 	/**
@@ -67,112 +64,49 @@ class Game {
 	public void changeScreen(int level) {
 		gameRoot.getChildren().clear();
 		if (level == 1) {
+			gameLevel = 1;
 			levelOne = new LevelOne();
 			levelOne.levelOneInit(gameRoot);
 		}
-		if (level == 3) {
-			// gameOverScreen = new GameOverScreen();
-			// gameOverScreen.gameOverInit(gameRoot);
+		if (level == 2) {
+			gameLevel = 2;
+			levelTwo = new LevelTwo();
+			levelTwo.levelTwoInit(gameRoot);
 		}
+		
 	}
 
 	public void gameAnimationStarter() {
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY, SIZE, SIZE));
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> 
+					this.step(SECOND_DELAY, Main.sizeOfScreen(), Main.sizeOfScreen()));
 		Timeline animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
 
-	/**
-	 * Create the game's scene
-	 */
 	public Scene init(int width, int height) {
 		scene = new Scene(gameRoot, width, height, Color.TRANSPARENT);
 		splashScreen = new SplashScreen();
 		splashScreen.splashInit(gameRoot);
 		return scene;
-		// create a scene graph to organize the scene
-		// Group root = new Group();
-		// create a place to see the shapes
-
-		// myLevel1Scene = new Scene(root, width, height, Color.TRANSPARENT);
-		// Image image = new
-		// Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
-		// Image image2 = new
-		// Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
-		// levelOneBackground1 = new ImageView(image);
-		// levelOneBackground2 = new ImageView(image2);
-		//
-		// // Rectangle sea = new Rectangle(width, height*0.9);
-		// // sea.setFill(Color.LIGHTSKYBLUE);
-		// root.getChildren().add(levelOneBackground1);
-		// root.getChildren().add(levelOneBackground2);
-		// levelOneBackground2.setX(1089);
-		// levelOneBackground1.setX(width / 2 -
-		// levelOneBackground1.getBoundsInLocal().getWidth() / 2);
-		// levelOneBackground1.setY(height / 2 -
-		// levelOneBackground1.getBoundsInLocal().getHeight() / 2);
-		// makeBackgroundScroll(width);
-		// Bubble[] bubbles = new Bubble[]{new Bubble(400,100), new
-		// Bubble(150,200), new Bubble(20,450),
-		// new Bubble(400,400)};
-		// Sliding backgroundSlider = new Sliding(image,width);
-		// root.getChildren().addAll(bubbleSlider);
-		// make some shapes and set their properties
-		// Image image = new
-		// Image(getClass().getClassLoader().getResourceAsStream("duke.gif"));
-		// myBouncer = new ImageView(image);
-		// // x and y represent the top left corner, so center it
-		// myBouncer.setX(width / 2 - myBouncer.getBoundsInLocal().getWidth() /
-		// 2);
-		// myBouncer.setY(height / 2 - myBouncer.getBoundsInLocal().getHeight()
-		// / 2);
-		// myTopBlock = new Rectangle(width / 2 - 25, height / 2 - 100, 50, 50);
-		// myTopBlock.setFill(Color.RED);
-
-		// myBottomBlock = new Rectangle(width / 2 - 25, height / 2 + 50, 50,
-		// 50);
-		// myBottomBlock.setFill(Color.BISQUE);
-		// order added to the group is the order in whuch they are drawn
-		// root.getChildren().add(myBouncer);
-		// levelOne = new LevelOne();
-
-		// player = new PlayersFish();
-		// root.getChildren().add(player.getPlayer());
-		// root.getChildren().add(myBottomBlock);
-		// respond to input
-		// myLevel1Scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-		// myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
-
 	}
 
-	/**
-	 * Change properties of shapes to animate them
-	 * 
-	 * Note, there are more sophisticated ways to animate shapes,
-	 */
-	// but these simple ways work too.
-	// called every frame
 	public void step(double elapsedTime, int width, int height) {
 		stepCounter++;
 		if (stepCounter % 50 == 0) {
 			Enemy enemy = new Enemy();
 			enemiesList.add(enemy);
-			// root.getChildren().add(enemy.getRect());
 		}
-
 		if (stepCounter % 80 == 0) {
 			Coin coin = new Coin();
 			coinList.add(coin);
 		}
-
 		player.update(elapsedTime);
 		for (Enemy e : enemiesList) {
 			if (e.collision((Shape) player.getPlayer())) {
 				System.out.print("end");
-			}
-			;
+			};
 			e.update(elapsedTime);
 		}
 		for (Coin c : coinList) {
@@ -293,6 +227,10 @@ class Game {
 		}
 	}
 
+	public int getGameLevel() {
+		return gameLevel;
+	}
+
 	class Bubble extends Circle {
 		public Bubble(double centerX, double centerY) {
 			super(0, 0, 20);
@@ -301,6 +239,7 @@ class Game {
 			this.setFill(Color.WHITESMOKE);
 			this.setOpacity(0.5);
 		}
+
 	}
 
 	// What to do each time a key is pressed
