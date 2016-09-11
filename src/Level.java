@@ -1,4 +1,3 @@
-
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -13,6 +12,7 @@ public class Level {
 	private Button playAgain, exitOut;
 	private Group tempRoot;
 	private Text gameOverText;
+	protected boolean disableEnemies;
 	
 	
 	
@@ -22,14 +22,6 @@ public class Level {
 		tempRoot.getChildren().remove(player.getPlayer());
 		displayGameOverText();
 		displayGameOverButtons();
-
-		playAgain.setOnAction((event) -> {
-			Main.getMyGame().changeScreen(1);
-		});
-
-		exitOut.setOnAction((event) -> {
-			System.exit(0);
-		});
 
 	}
 	
@@ -41,14 +33,17 @@ public class Level {
 		tempRoot.getChildren().add(gameOverText);
 	}
 	
-	
 	public void displayGameOverButtons() {
 		playAgain = new Button("Play Again");
 		playAgain.setLayoutX(SIZE / 4);
 		playAgain.setLayoutY(SIZE * 3 / 4);
 		playAgain.setPrefSize(SIZE / 2, 40);
 		tempRoot.getChildren().add(playAgain);
-
+		
+		playAgain.setOnAction((event) -> {
+			Main.getMyGame().changeScreen(1);
+		});
+		
 		exitOutButtonInit();
 	}
 	
@@ -57,6 +52,13 @@ public class Level {
 		exitOut.setLayoutX(SIZE / 4);
 		exitOut.setLayoutY(SIZE * 9 / 10);
 		exitOut.setPrefSize(SIZE / 2, 40);
+		
+		exitOut.setOnAction((event) -> {
+			System.exit(0);
+		});
+
 		return exitOut;
 	}
+	
+	
 }

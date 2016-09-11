@@ -16,7 +16,6 @@ public class Enemy extends Sprite {
 			levelTwoEnemyCreation();
 		}
 		rect.setX(680);
-		
 	}
 	
 	public void levelOneEnemyCreation(){
@@ -35,12 +34,11 @@ public class Enemy extends Sprite {
 	}
 	
 	public void levelTwoEnemyCreation(){
-		rect.setFill(Color.SEAGREEN);
+		rect.setFill(Color.ORANGE);
 		Random rand = new Random();
 		rect.setWidth(25);
 		rect.setHeight(rand.nextInt(20)+10);
 		rect.setY(450);
-		
 		this.setXv(300);
 	}
 
@@ -52,10 +50,13 @@ public class Enemy extends Sprite {
 	public Node getRect() {
 		return rect;
 	}
+	
+	public boolean isOffScreen(){
+		return (rect.getLayoutX()<(-10));
+	}
 
 	public boolean collision(Shape mainPlayer) {
 		Shape intersect = Shape.intersect((Shape) this.getRect(), mainPlayer);
-		// System.out.print(intersect.getBoundsInLocal().getWidth() != -1);
 		return (intersect.getBoundsInLocal().getWidth() != -1);
 	}
 

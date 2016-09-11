@@ -3,7 +3,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
  * @author Rachel Bransom rnb11
  */
 public class Main extends Application {
@@ -17,6 +16,7 @@ public class Main extends Application {
 		stage.setTitle(myGame.getTitle());
 		Scene scene = myGame.init(SIZE, SIZE);
 		stage.setScene(scene);
+		stage.setResizable(false);
 		stage.show();
 	}
 

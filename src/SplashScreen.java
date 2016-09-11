@@ -1,7 +1,4 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,13 +9,11 @@ import javafx.scene.text.Text;
 
 public class SplashScreen {
 	private Group splashRoot = new Group();
-	private Scene splashScene;
 	private ImageView splashImage;
 	private Button playButton;
 	private Button instructionsButton, levelTwoButton;
-	private LevelOne levelOne;
 	private Text displayText, instructionsText;
-	public static final int SIZE = 650;
+	public static final int SIZE = Main.sizeOfScreen();
 
 	public void splashInit(Group root) {
 		splashRoot = root;
@@ -38,9 +33,7 @@ public class SplashScreen {
 		instructionsButton.setOnAction((event) -> {
 			displayInstructions();
 		});
-		
 
-		// return splashScene;
 	}
 	
 	public void displayInstructions(){
@@ -104,16 +97,12 @@ public class SplashScreen {
 		instructionsButton.setLayoutX(SIZE / 4);
 		instructionsButton.setLayoutY(SIZE * 4 / 5);
 		instructionsButton.setPrefSize(SIZE / 2, 40);
+		
 		splashRoot.getChildren().add(instructionsButton);
-
 	}
 
 	public void startGame(int level) {
 		Main.getMyGame().changeScreen(level);
-
-		// System.out.print("hi");
-		// splashScene.
-
 	}
 
 }

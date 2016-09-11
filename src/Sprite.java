@@ -1,22 +1,22 @@
-
 public class Sprite {
-	
+
 	private double vX;
 	private double vY;
-	
-	public double getXv(){
+
+	public double getXv() {
 		return this.vX;
 	}
+
 	public double getYv() {
 		return this.vY;
 	}
-	
-	public void setXv(double newX){
+
+	public void setXv(double newX) {
 		this.vX = newX;
 	}
 
-	public void setYv(double newY){
+	public void setYv(double newY) {
 		this.vY = newY;
 	}
-	
+
 }

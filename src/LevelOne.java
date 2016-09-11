@@ -28,7 +28,7 @@ public class LevelOne extends Level {
 	private ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
 	private ArrayList<Coin> coinList = new ArrayList<Coin>();
 	private ParallelTransition parallelTransition;
-	private boolean passedLevelOne = false, disableEnemies = false;
+	private boolean passedLevelOne;
 	public static final int SIZE = 650;
 	public static final int FRAMES_PER_SECOND = 60;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -39,8 +39,6 @@ public class LevelOne extends Level {
 
 	public void levelOneInit(Group root) {
 		levelOneRoot = root;
-		// myLevel1Scene = new Scene(levelOneRoot, width, height,
-		// Color.TRANSPARENT);
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
 		Image image2 = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorBackground.png"));
 		levelOneBackground1 = new ImageView(image);
@@ -54,17 +52,12 @@ public class LevelOne extends Level {
 		setUpScoreBoard();
 		gameAnimationStarter();
 		root.getScene().setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-		// return myLevel1Scene;
 	}
 
 	public void setUpScoreBoard() {
 		score = new Text("SCORE: " + numCoinsCollected);
 		score.setLayoutX(SIZE - 150);
 		score.setLayoutY(50);
-		// score.textProperty().bind(Bindings.createStringBinding(() -> ("SCORE:
-		// " + numCoinsCollected.get(), numCoinsCollected));
-		// Text score = new Text(SIZE-50,40,"SCORE: "+ numCoinsCollected);
-		// score.setText("SCORE: " + numCoinsCollected);
 		score.setFont(Font.font("Impact", FontWeight.BOLD, 40));
 		score.setFill(Color.WHITE);
 		levelOneRoot.getChildren().add(score);
@@ -73,7 +66,7 @@ public class LevelOne extends Level {
 	public void step(double elapsedTime, int width, int height) {
 		if (!gameOver && !passedLevelOne) {
 			stepCounter++;
-			if (stepCounter % 50 == 0 && disableEnemies == false) {
+			if (stepCounter % 50 == 0 && !disableEnemies) {
 				Enemy enemy = new Enemy();
 				enemiesList.add(enemy);
 				levelOneRoot.getChildren().add(enemy.getRect());
@@ -93,14 +86,11 @@ public class LevelOne extends Level {
 			}
 			for (Coin c : coinList) {
 				if (c.collision((Shape) player.getPlayer())) {
-
 					coinsCollidedToDelete.add(c);
 					levelOneRoot.getChildren().remove(c.getCircle());
-
 					numCoinsCollected++;
 					score.setText("SCORE: " + numCoinsCollected);
 					if (numCoinsCollected == GOAL_NUMBER_COINS) {
-
 						passedLevelOne = true;
 						setScreenToLevelTwo();
 					}
@@ -142,34 +132,19 @@ public class LevelOne extends Level {
 
 	}
 
-	public void gameAnimationStarter() {
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY, SIZE, SIZE));
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-	}
-
 	public void makeBackgroundScroll(final int width) {
-		// System.out.println(levelOneBackground.getBoundsInLocal());
 		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(10000), levelOneBackground1);
 		translateTransition.setFromX(0);
 		translateTransition.setToX(-1 * levelOneBackground1.getLayoutBounds().getWidth());
 		translateTransition.setInterpolator(Interpolator.LINEAR);
-		// translateTransition.setCycleCount(Animation.INDEFINITE);
-
-		// System.out.println(levelOneBackground1.getLayoutX());
+		
 		TranslateTransition translateTransition2 = new TranslateTransition(Duration.millis(10000), levelOneBackground2);
 		translateTransition2.setFromX(0);
 		translateTransition2.setToX(-1089);
 		translateTransition2.setInterpolator(Interpolator.LINEAR);
 
-		// translateTransition.play();
-		// translateTransition2.play();
 		parallelTransition = new ParallelTransition(translateTransition2, translateTransition);
 		parallelTransition.setCycleCount(Animation.INDEFINITE);
-
-		// parallelTransition.setRate(BACKGROUND_SPEED);
 		parallelTransition.play();
 
 	}
@@ -214,8 +189,16 @@ public class LevelOne extends Level {
 			setScreenToLevelTwo();
 			break;
 
-		default:
-			// do nothing
+		default: //nothing
 		}
 	}
+	
+	public void gameAnimationStarter() {
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY, SIZE, SIZE));
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+	}
 }
+
