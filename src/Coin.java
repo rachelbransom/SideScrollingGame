@@ -16,7 +16,8 @@ public class Coin extends Sprite {
 		circle.setFill(Color.GOLD);
 		this.setXv(rand.nextInt(100) + 20);
 	}
-
+	
+	
 	public void update(double elapsedTime) {
 		circle.setCenterX(circle.getCenterX() - this.getXv() * elapsedTime);
 	}

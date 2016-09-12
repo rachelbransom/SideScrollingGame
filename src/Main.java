@@ -6,8 +6,7 @@ import javafx.stage.Stage;
  * @author Rachel Bransom rnb11
  */
 public class Main extends Application {
-	public static final int SIZE = 650;
-	public static final int FRAMES_PER_SECOND = 60;
+	public static int SIZE = 650;
 	private static Game myGame;
 	
 	@Override
@@ -20,6 +19,9 @@ public class Main extends Application {
 		stage.show();
 	}
 
+	//myGame has been made static because I call getMyGame every time
+	//I need to change screens, using the method in Game. This was the only
+	//way I knew to connect the parts of the game
 	public static Game getMyGame() {
 		return myGame;
 	}

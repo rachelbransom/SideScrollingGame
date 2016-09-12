@@ -6,7 +6,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -30,10 +29,10 @@ public class LevelTwo extends Level {
 	private boolean passedLevelTwo;
 	private int stepCounter;
 	private EndOfLevelTwoPoint winningStar;
-	private Button exitOut;
 	private ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
 	private ArrayList<Enemy> enemiesOffScreen = new ArrayList<Enemy>();
 
+	//public so I can call from game, which manages the levels
 	public void levelTwoInit(Group root) {
 		levelTwoRoot = root;
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream("SeaFloorLevelTwo.png"));
@@ -53,7 +52,7 @@ public class LevelTwo extends Level {
 
 	}
 
-	public void step(double elapsedTime, int width, int height) {
+	private void step(double elapsedTime, int width, int height) {
 		if (!gameOver && !passedLevelTwo) {
 			stepCounter++;
 			if (stepCounter % 200 == 0 && !disableEnemies) {
@@ -87,19 +86,19 @@ public class LevelTwo extends Level {
 
 	}
 	
-	public void starToBeInView(){
+	private void starToBeInView(){
 		winningStarInView = true;
 		winningStar = new EndOfLevelTwoPoint();
 		levelTwoRoot.getChildren().add(winningStar.getStar());
 	}
 
-	public void setScreenToWin() {
+	private void setScreenToWin() {
 		levelTwoRoot.getChildren().remove(player.getPlayer());
 		levelTwoRoot.getChildren().addAll(exitOutButtonInit());
 		displayWinningText();
 	}
 
-	public void displayWinningText() {
+	private void displayWinningText() {
 		Text winningText = new Text(Main.sizeOfScreen() / 5, Main.sizeOfScreen() / 3, "CONGRATULATIONS! \n YOU WON!");
 		winningText.setFont(Font.font("Impact", FontWeight.BOLD, 60));
 		winningText.setFill(Color.WHITE);
@@ -107,7 +106,7 @@ public class LevelTwo extends Level {
 		levelTwoRoot.getChildren().add(winningText);
 	}
 
-	public void makeBackgroundScroll(final int width) {
+	private void makeBackgroundScroll(final int width) {
 
 		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(10000), levelTwoBackground1);
 		translateTransition.setFromX(0);
@@ -155,7 +154,7 @@ public class LevelTwo extends Level {
 		}
 	}
 
-	public void gameAnimationStarter() {
+	private void gameAnimationStarter() {
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 				e -> this.step(SECOND_DELAY, Main.sizeOfScreen(), Main.sizeOfScreen()));
 		Timeline animation = new Timeline();

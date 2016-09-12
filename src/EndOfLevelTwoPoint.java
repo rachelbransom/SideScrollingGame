@@ -3,7 +3,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 public class EndOfLevelTwoPoint extends Sprite{
-	Polygon endPoint;
+	private Polygon endPoint;
 	
 	public EndOfLevelTwoPoint(){
 		endPoint = new Polygon();

@@ -15,6 +15,7 @@ public class SplashScreen {
 	private Text displayText, instructionsText;
 	public static final int SIZE = Main.sizeOfScreen();
 
+	// public because game manages levels
 	public void splashInit(Group root) {
 		splashRoot = root;
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream("SplashScreenImage.jpg"));
@@ -22,7 +23,7 @@ public class SplashScreen {
 		splashRoot.getChildren().add(splashImage);
 
 		splashText();
-		displaySplashButtons(SIZE * 3 / 5);
+		displaySplashButtons();
 
 		playButton.setOnAction((event) -> {
 			startGame(1);
@@ -33,11 +34,11 @@ public class SplashScreen {
 		instructionsButton.setOnAction((event) -> {
 			displayInstructions();
 		});
-
 	}
 	
-	public void displayInstructions(){
-		splashRoot.getChildren().removeAll(playButton, levelTwoButton, instructionsButton, displayText);
+	private void displayInstructions(){
+		splashRoot.getChildren().removeAll(playButton, levelTwoButton, 
+											instructionsButton, displayText);
 		Text instructionsHeader = new Text(SIZE/6, SIZE/6, "INSTRUCTIONS");
 		instructionsHeader.setFont(Font.font("Impact", FontWeight.BOLD, 80));;
 		instructionsHeader.setFill(Color.TEAL);
@@ -45,9 +46,8 @@ public class SplashScreen {
 		instructionsText = new Text(SIZE/8, SIZE/4, "For level 1, you are a diver (red square) "
 				+ "swimming through the ocean. Avoid all the multicolored square fish "
 				+ "but collect all the coins!\n"
-				+ "Once you have collected 10 coins, you pass onto "
-				+ "the next level! \n To move, use the four arrow key buttons. You cannot"
-				+ "go off of the screen \n"
+				+ "Once you have collected 10 coins, you pass onto the next level! \n "
+				+ "To move, use the four arrow key buttons. You cannot go off of the screen \n"
 				+ "\n"
 				+ "For level 2, you are walking on the sea floor. You can move "
 				+ "forwards and backwards, using the left and right arrow keys "
@@ -61,47 +61,41 @@ public class SplashScreen {
 		instructionsText.setFill(Color.WHITE);
 		
 		playButton = new Button("START");
-		playButton.setLayoutX(SIZE / 4);
-		playButton.setLayoutY(SIZE - 100);
-		playButton.setPrefSize(SIZE / 2, 40);
 		
-		splashRoot.getChildren().addAll(instructionsText, instructionsHeader, playButton);
+		splashRoot.getChildren().addAll(instructionsText, instructionsHeader, 
+				setButtonLayout(playButton,8));
 		
 		playButton.setOnAction((event) -> {
 			startGame(1);
 		});
 	}
 
-	public void splashText() {
+	private void splashText() {
 		displayText = new Text(SIZE / 8, SIZE / 4, "Sink or \n  Swim");
 		displayText.setFont(Font.font("Impact", FontWeight.BOLD, 160));
 		displayText.setFill(Color.TEAL);
 		splashRoot.getChildren().add(displayText);
 	}
 
-	public void displaySplashButtons(int layoutY) {
+	private void displaySplashButtons() {
 		playButton = new Button("Play Level 1");
-		playButton.setLayoutX(SIZE / 4);
-		playButton.setLayoutY(layoutY);
-		playButton.setPrefSize(SIZE / 2, 40);
-
-		splashRoot.getChildren().add(playButton);
+		splashRoot.getChildren().add(setButtonLayout(playButton, 6));
 
 		levelTwoButton = new Button("Play Level 2");
-		levelTwoButton.setLayoutX(SIZE / 4);
-		levelTwoButton.setLayoutY(SIZE * 7 / 10);
-		levelTwoButton.setPrefSize(SIZE / 2, 40);
-		splashRoot.getChildren().add(levelTwoButton);
+		splashRoot.getChildren().add(setButtonLayout(levelTwoButton, 7));
 
-		instructionsButton = new Button("Instructions");
-		instructionsButton.setLayoutX(SIZE / 4);
-		instructionsButton.setLayoutY(SIZE * 4 / 5);
-		instructionsButton.setPrefSize(SIZE / 2, 40);
-		
-		splashRoot.getChildren().add(instructionsButton);
+		instructionsButton = new Button("Instructions");		
+		splashRoot.getChildren().add(setButtonLayout(instructionsButton, 8));
+	}
+	
+	private Button setButtonLayout(Button button, double layoutY){
+		button.setLayoutX(SIZE/4);
+		button.setLayoutY(SIZE*(layoutY/10));
+		button.setPrefSize(SIZE/2, 40);
+		return button;
 	}
 
-	public void startGame(int level) {
+	private void startGame(int level) {
 		Main.getMyGame().changeScreen(level);
 	}
 

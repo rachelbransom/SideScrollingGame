@@ -1,5 +1,7 @@
+import javafx.animation.ParallelTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -13,9 +15,9 @@ public class Level {
 	private Group tempRoot;
 	private Text gameOverText;
 	protected boolean disableEnemies;
-	
-	
-	
+	protected ImageView levelTwoBackground1, levelTwoBackground2;
+	protected ParallelTransition parallelTransition;
+
 	public void setScreenToGameOver(Group root, PlayersFish player) {
 		tempRoot = root;
 		gameOver = true;
@@ -24,7 +26,7 @@ public class Level {
 		displayGameOverButtons();
 
 	}
-	
+
 	public void displayGameOverText() {
 		gameOverText = new Text(SIZE / 5, SIZE / 3, "GAME\n OVER");
 		gameOverText.setFont(Font.font("Impact", FontWeight.BOLD, 160));
@@ -32,33 +34,32 @@ public class Level {
 		gameOverText.setTextAlignment(TextAlignment.CENTER);
 		tempRoot.getChildren().add(gameOverText);
 	}
-	
+
 	public void displayGameOverButtons() {
 		playAgain = new Button("Play Again");
 		playAgain.setLayoutX(SIZE / 4);
 		playAgain.setLayoutY(SIZE * 3 / 4);
 		playAgain.setPrefSize(SIZE / 2, 40);
 		tempRoot.getChildren().add(playAgain);
-		
+
 		playAgain.setOnAction((event) -> {
 			Main.getMyGame().changeScreen(1);
 		});
-		
+
 		exitOutButtonInit();
 	}
-	
+
 	public Button exitOutButtonInit() {
 		exitOut = new Button("Exit Out");
 		exitOut.setLayoutX(SIZE / 4);
 		exitOut.setLayoutY(SIZE * 9 / 10);
 		exitOut.setPrefSize(SIZE / 2, 40);
-		
+
 		exitOut.setOnAction((event) -> {
 			System.exit(0);
 		});
 
 		return exitOut;
 	}
-	
-	
+
 }

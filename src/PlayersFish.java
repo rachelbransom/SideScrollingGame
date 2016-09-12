@@ -43,7 +43,6 @@ public class PlayersFish extends Sprite {
 		jump = true;
 	}
 
-
 	public void update(double elapsedTime) {
 		player.setLayoutY(this.getYv() * elapsedTime * 200 + player.getLayoutY());
 		if (this.getYv() != 0) {

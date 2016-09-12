@@ -6,7 +6,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,7 +32,7 @@ public class LevelOne extends Level {
 	public static final int FRAMES_PER_SECOND = 60;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private Button playAgain, exitOut, continueToLevelTwo;
+	private Button continueToLevelTwo;
 	private Text score;
 	private ArrayList<Coin> coinsCollidedToDelete = new ArrayList<Coin>();
 
@@ -54,7 +53,7 @@ public class LevelOne extends Level {
 		root.getScene().setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 	}
 
-	public void setUpScoreBoard() {
+	private void setUpScoreBoard() {
 		score = new Text("SCORE: " + numCoinsCollected);
 		score.setLayoutX(SIZE - 150);
 		score.setLayoutY(50);
@@ -63,7 +62,7 @@ public class LevelOne extends Level {
 		levelOneRoot.getChildren().add(score);
 	}
 
-	public void step(double elapsedTime, int width, int height) {
+	private void step(double elapsedTime, int width, int height) {
 		if (!gameOver && !passedLevelOne) {
 			stepCounter++;
 			if (stepCounter % 50 == 0 && !disableEnemies) {
@@ -104,7 +103,7 @@ public class LevelOne extends Level {
 		player.update(elapsedTime);
 	}
 
-	public void setScreenToLevelTwo() {
+	private void setScreenToLevelTwo() {
 		levelOneRoot.getChildren().remove(player.getPlayer());
 		displayLevelTwoText();
 		displayLevelTwoButtons();
@@ -115,7 +114,7 @@ public class LevelOne extends Level {
 
 	}
 
-	public void displayLevelTwoText() {
+	private void displayLevelTwoText() {
 		Text levelTwoText = new Text(SIZE / 8, SIZE / 3, "CONGRATULATIONS! \n YOU PASSED \n LEVEL ONE");
 		levelTwoText.setFont(Font.font("Impact", FontWeight.BOLD, 60));
 		levelTwoText.setFill(Color.WHITE);
@@ -123,7 +122,7 @@ public class LevelOne extends Level {
 		levelOneRoot.getChildren().add(levelTwoText);
 	}
 
-	public void displayLevelTwoButtons() {
+	private void displayLevelTwoButtons() {
 		continueToLevelTwo = new Button("Proceed to Level 2");
 		continueToLevelTwo.setLayoutX(SIZE / 4);
 		continueToLevelTwo.setLayoutY(SIZE * 3 / 4);
@@ -132,7 +131,7 @@ public class LevelOne extends Level {
 
 	}
 
-	public void makeBackgroundScroll(final int width) {
+	private void makeBackgroundScroll(final int width) {
 		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(10000), levelOneBackground1);
 		translateTransition.setFromX(0);
 		translateTransition.setToX(-1 * levelOneBackground1.getLayoutBounds().getWidth());
@@ -193,7 +192,7 @@ public class LevelOne extends Level {
 		}
 	}
 	
-	public void gameAnimationStarter() {
+	private void gameAnimationStarter() {
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY, SIZE, SIZE));
 		Timeline animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);

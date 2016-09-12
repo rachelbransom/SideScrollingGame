@@ -6,6 +6,8 @@ import javafx.scene.shape.Shape;
 
 public class Enemy extends Sprite {
 	private Rectangle rect;
+	private int SPEED = 300;
+	
 
 	public Enemy() {
 		rect = new Rectangle();
@@ -15,7 +17,6 @@ public class Enemy extends Sprite {
 		else {
 			levelTwoEnemyCreation();
 		}
-		rect.setX(680);
 	}
 	
 	public void levelOneEnemyCreation(){
@@ -25,7 +26,7 @@ public class Enemy extends Sprite {
 		float b = (float) (rand.nextFloat() / 2f + 0.5);
 		Color randomColor = Color.color(r, g, b);
 		rect.setFill(randomColor);
-		
+		rect.setX(680);
 		double size = rand.nextInt(60) + 20;
 		rect.setWidth(size);
 		rect.setHeight(size);
@@ -38,8 +39,9 @@ public class Enemy extends Sprite {
 		Random rand = new Random();
 		rect.setWidth(25);
 		rect.setHeight(rand.nextInt(20)+10);
+		rect.setX(rand.nextInt(50)+670);
 		rect.setY(450);
-		this.setXv(300);
+		this.setXv(SPEED);
 	}
 
 	public void update(double elapsedTime) {
