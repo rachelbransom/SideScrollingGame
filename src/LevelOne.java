@@ -7,7 +7,6 @@
 // This class is dependent on PlayersFish and the game class - in order to change screens onto level 2/game over
 //The methods in this class are called by the game class
 
-
 import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -55,6 +54,7 @@ public class LevelOne extends Level {
 	private static final int PLAYER_SPEED = 3;
 	private static final int SCOREBOARD_XPOS = SIZE - 150;
 	private static final int SCOREBOARD_YPOS = 50;
+	
 	//initializes level one to add all the revelant variables into the root
 	public void levelOneInit(Group root) {
 		levelOneRoot = root;
@@ -95,7 +95,7 @@ public class LevelOne extends Level {
 	}
 	//called every frame to update the characters, add enemies, add coins, and check for collisions
 	private void step(double elapsedTime, int width, int height) {
-		if (!gameOver && !passedLevelOne) {
+		if (!passedLevelOne && !gameOver) {
 			stepCounter++;
 			if (stepCounter % MILLISECONDS_PER_ENEMY == 0 && !disableEnemies) {
 				addEnemy();
