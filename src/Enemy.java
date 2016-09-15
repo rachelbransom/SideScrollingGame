@@ -1,3 +1,5 @@
+//Rachel Bransom
+//This class 
 import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -8,7 +10,7 @@ public class Enemy extends Sprite {
 	private Rectangle rect;
 	private int SPEED = 300;
 	
-
+	//constructor
 	public Enemy() {
 		rect = new Rectangle();
 		if (Main.getMyGame().getGameLevel() == 1){
@@ -18,7 +20,7 @@ public class Enemy extends Sprite {
 			levelTwoEnemyCreation();
 		}
 	}
-	
+	//creates an enemy for use in level one (floating)
 	public void levelOneEnemyCreation(){
 		Random rand = new Random();
 		float r = (float) (rand.nextFloat() / 2f + 0.5);
@@ -33,7 +35,7 @@ public class Enemy extends Sprite {
 		rect.setY(rand.nextFloat() * 600);
 		this.setXv(rand.nextInt(150) + 20);
 	}
-	
+	//creates an enemy for use un level 2 (on the ground)
 	public void levelTwoEnemyCreation(){
 		rect.setFill(Color.ORANGE);
 		Random rand = new Random();
@@ -43,7 +45,7 @@ public class Enemy extends Sprite {
 		rect.setY(450);
 		this.setXv(SPEED);
 	}
-
+	//updating position and rotation of object
 	public void update(double elapsedTime) {
 		rect.setX(rect.getX() - this.getXv() * elapsedTime);
 		rect.setRotate(rect.getRotate()+10);
@@ -52,11 +54,11 @@ public class Enemy extends Sprite {
 	public Node getRect() {
 		return rect;
 	}
-	
+	// whether the enemy is off of the screen and should be discarded
 	public boolean isOffScreen(){
 		return (rect.getLayoutX()<(-10));
 	}
-
+	//when the enemy has collided with the main player in a given frame
 	public boolean collision(Shape mainPlayer) {
 		Shape intersect = Shape.intersect((Shape) this.getRect(), mainPlayer);
 		return (intersect.getBoundsInLocal().getWidth() != -1);

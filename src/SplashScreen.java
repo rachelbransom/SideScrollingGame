@@ -1,3 +1,8 @@
+//Rachel Bransom
+// This starts the splash screen. It initializes the background,text, and buttons
+// this class is dependent on only the game class to start up the game. It calls the change screens method in it
+//Methods in this class are called automatically from the game class
+
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -35,7 +40,7 @@ public class SplashScreen {
 			displayInstructions();
 		});
 	}
-	
+	//removes the original splash screen text and buttons and displays instructions on screen
 	private void displayInstructions(){
 		splashRoot.getChildren().removeAll(playButton, levelTwoButton, 
 											instructionsButton, displayText);
@@ -69,14 +74,14 @@ public class SplashScreen {
 			startGame(1);
 		});
 	}
-
+	// displays bold sink or swim letters
 	private void splashText() {
 		displayText = new Text(SIZE / 8, SIZE / 4, "Sink or \n  Swim");
 		displayText.setFont(Font.font("Impact", FontWeight.BOLD, 160));
 		displayText.setFill(Color.TEAL);
 		splashRoot.getChildren().add(displayText);
 	}
-
+	//initalizes buttons and displays them to start level1, level2, or instructions
 	private void displaySplashButtons() {
 		playButton = new Button("Play Level 1");
 		splashRoot.getChildren().add(setButtonLayout(playButton, 6));
@@ -87,14 +92,14 @@ public class SplashScreen {
 		instructionsButton = new Button("Instructions");		
 		splashRoot.getChildren().add(setButtonLayout(instructionsButton, 8));
 	}
-	
+	//sets the positions of the buttons
 	private Button setButtonLayout(Button button, double layoutY){
 		button.setLayoutX(SIZE/4);
 		button.setLayoutY(SIZE*(layoutY/10));
 		button.setPrefSize(SIZE/2, 40);
 		return button;
 	}
-
+	//starts game by calling the screen change method in game
 	private void startGame(int level) {
 		Main.getMyGame().changeScreen(level);
 	}

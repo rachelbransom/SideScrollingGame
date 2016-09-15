@@ -1,3 +1,10 @@
+//Rachel Bransom
+//This is a class to display the game winning star. It initializes it and starts it
+//scrolling in from the right.
+//this class assumed the player will collide with the star, and not jump over it
+//This class is dependent on level two class.
+//If any code in level two is changed, this class is likely to break
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;

@@ -1,3 +1,14 @@
+//Rachel Bransom
+//This class controls level two. It initializes the screen, 
+//contains the step function, and handles the game when the 
+//player wins or loses.
+//I assume that the frame per second is not sped up, otherwise the game
+//may not work as intended
+// This class depends on the game class, for screen changes, the 
+//PlayersFish class, for the player, the Enemy class, for the enemies,
+//and the EndOfLevelTwoPoint for the game winning star
+//This class is automatically used when the program is run
+
 import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -51,7 +62,7 @@ public class LevelTwo extends Level {
 		root.getScene().setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
 	}
-
+	//this is called every frame, and checks for collisions and updates the characters
 	private void step(double elapsedTime, int width, int height) {
 		if (!gameOver && !passedLevelTwo) {
 			stepCounter++;
@@ -85,19 +96,20 @@ public class LevelTwo extends Level {
 		player.update(elapsedTime);
 
 	}
-	
+	//called to change screens
 	private void starToBeInView(){
 		winningStarInView = true;
 		winningStar = new EndOfLevelTwoPoint();
 		levelTwoRoot.getChildren().add(winningStar.getStar());
 	}
 
+	// removes player and adds exit out button
 	private void setScreenToWin() {
 		levelTwoRoot.getChildren().remove(player.getPlayer());
 		levelTwoRoot.getChildren().addAll(exitOutButtonInit());
 		displayWinningText();
 	}
-
+	//creates winning text and puts it on the screen
 	private void displayWinningText() {
 		Text winningText = new Text(Main.sizeOfScreen() / 5, Main.sizeOfScreen() / 3, "CONGRATULATIONS! \n YOU WON!");
 		winningText.setFont(Font.font("Impact", FontWeight.BOLD, 60));
@@ -105,7 +117,7 @@ public class LevelTwo extends Level {
 		winningText.setTextAlignment(TextAlignment.CENTER);
 		levelTwoRoot.getChildren().add(winningText);
 	}
-
+	//makes background side scroll
 	private void makeBackgroundScroll(final int width) {
 
 		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(10000), levelTwoBackground1);
@@ -122,7 +134,7 @@ public class LevelTwo extends Level {
 		parallelTransition.setCycleCount(Animation.INDEFINITE);
 		parallelTransition.play();
 	}
-	
+	//takes in key input and sets the players position accordingly
 	private void handleKeyInput(KeyCode code) {
 		switch (code) {
 		case LEFT:
@@ -153,7 +165,7 @@ public class LevelTwo extends Level {
 			// do nothing
 		}
 	}
-
+	// starts the animation of the game
 	private void gameAnimationStarter() {
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 				e -> this.step(SECOND_DELAY, Main.sizeOfScreen(), Main.sizeOfScreen()));
